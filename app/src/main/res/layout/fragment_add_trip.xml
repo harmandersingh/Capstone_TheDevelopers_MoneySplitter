@@ -1,6 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient"
+    android:padding="16dp"
+    tools:context=".AddTripFragment">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/style_white_bold_text_large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Trip Details" />
+
+
+            <EditText
+                style="@style/style_edt_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+
+                android:hint="Destination" />
+
+            <EditText
+                style="@style/style_edt_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Budget" />
+
+            <EditText
+                style="@style/style_edt_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:hint="Date of departure" />
+
+            <EditText
+                style="@style/style_edt_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Date of return" />
+
+
+            <TextView
+                android:id="@+id/btnSubmit"
+                style="@style/style_white_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Submit" />
+
+
+            <EditText
+                style="@style/style_edt_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Member Email" />
+
+            <TextView
+                android:id="@+id/btnAddMember"
+                style="@style/style_white_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add member" />
+
+
+            <TextView
+                style="@style/style_white_bold_text_large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Members" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMembers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+</RelativeLayout>
