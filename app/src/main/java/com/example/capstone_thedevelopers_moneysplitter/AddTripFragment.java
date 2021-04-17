@@ -36,4 +36,19 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class AddTripFragment extends Fragment {
 
+    EditText edtDestination, edtBudget, edtStartDate, edtEndDate, edtMembers;
+    TextView btnSubmit, btnAddMember;
+    ArrayList<UserData> membersList = new ArrayList<>();
+    RecyclerView recyclerView;
+    ProgressBar progressBar;
+    private DatabaseReference mFirebaseDatabase;
+    private FirebaseDatabase mFirebaseInstance;
+    SharedPreferences mPrefs;
+    private UserData userData = new UserData();
+
+    public AddTripFragment() {
+        // Required empty public constructor
+    }
+
+
 }
