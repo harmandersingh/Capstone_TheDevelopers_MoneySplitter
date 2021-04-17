@@ -96,6 +96,82 @@ public class ViewTripFragment extends Fragment {
             openAddExpanseDialog();
             /*updateExpanse()*/
         });
+        ((MainActivity) getActivity()).getCurrentLocation();
+
+        btnViewLocation.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("dataList", tripData.expanseData);
+            ExpanseListFragment expanseListFragment = new ExpanseListFragment();
+            expanseListFragment.setArguments(bundle);
+            ((MainActivity) getActivity()).openFragment(expanseListFragment, true);
+        });
+
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        Gson gson = new Gson();
+        String json = mPrefs.getString("userData", "");
+        userData = gson.fromJson(json, UserData.class);
+
+        if (userData.getCurrentTripId() == null) {
+            Toast.makeText(getActivity(), "Trip not found", Toast.LENGTH_LONG).show();
+            requireActivity().onBackPressed();
+            return view;
+        }
+
+        getTripDataFromFirebase(userData.getCurrentTripId());
+
+        return view;
+    }
+
+    private void openAddExpanseDialog() {
+
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_expanse);
+
+        EditText edtExpanse = (EditText) dialog.findViewById(R.id.edtExpanse);
+        EditText edtDescription = (EditText) dialog.findViewById(R.id.edtDescription);
+        imgBill = (ImageView) dialog.findViewById(R.id.imgBill);
+        LinearLayout lytAddImage = (LinearLayout) dialog.findViewById(R.id.lytAddImage);
+        TextView dialogButton = (TextView) dialog.findViewById(R.id.txtAdd);
+
+        lytAddImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCamera();
+            }
+        });
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (edtDescription.getText().toString().isEmpty()) {
+                    edtDescription.requestFocus();
+                    edtDescription.setError("please enter description");
+                    return;
+                } else if (edtExpanse.getText().toString().isEmpty()) {
+                    edtExpanse.requestFocus();
+                    edtExpanse.setError("please enter expanse");
+
+                    return;
+                }
+
+                ExpanseData expanseData = new ExpanseData();
+                expanseData.setUserId(userData.getUserId());
+                expanseData.setUserName(userData.getName());
+                expanseData.setExpanse(edtExpanse.getText().toString());
+                expanseData.setImage("");
+                expanseData.setDescription(edtDescription.getText().toString());
+                expanseData.setLat(((MainActivity) getActivity()).latitude);
+                expanseData.setLng(((MainActivity) getActivity()).longitude);
+                expanseData.setAddress("");
+//                uploadBillImageToFirebase(imageUrl, expanseData);
+                updateExpanse(expanseData);
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
 
 
     }
