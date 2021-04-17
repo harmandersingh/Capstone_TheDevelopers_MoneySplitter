@@ -50,5 +50,52 @@ import java.io.File;
 import static android.content.Context.MODE_PRIVATE;
 
 public class ViewTripFragment extends Fragment {
+    Uri imageUrl;
+    private static final int CAMERA_REQUEST = 1888;
 
-}
+    private static final int MY_CAMERA_PERMISSION_CODE = 100;
+    TextView btnAdd, btnViewLocation, txtDateReturn,
+            txtDateDeparture, txtDestination, txtTotal;
+
+    ProgressBar progressBar;
+    EditText edtAmount;
+    SharedPreferences mPrefs;
+    private UserData userData = new UserData();
+
+    private DatabaseReference mFirebaseDatabase;
+    private FirebaseDatabase mFirebaseInstance;
+    private TripData tripData = new TripData();
+    private ImageView imgBill;
+
+    public ViewTripFragment() {
+        // Required empty public constructor
+    }
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_view_trip, container, false);
+        // Inflate the layout for this fragment
+        edtAmount = view.findViewById(R.id.edtAmount);
+        btnAdd = view.findViewById(R.id.btnAdd);
+        btnViewLocation = view.findViewById(R.id.btnViewLocation);
+        txtDateReturn = view.findViewById(R.id.txtDateReturn);
+        txtDateDeparture = view.findViewById(R.id.txtDateDeparture);
+        txtDestination = view.findViewById(R.id.txtDestination);
+        txtTotal = view.findViewById(R.id.txtTotal);
+        progressBar = view.findViewById(R.id.progressBar);
+        mPrefs = getActivity().getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
+        btnAdd.setOnClickListener(v -> {
+            openAddExpanseDialog();
+            /*updateExpanse()*/
+        });
+
+
+    }
