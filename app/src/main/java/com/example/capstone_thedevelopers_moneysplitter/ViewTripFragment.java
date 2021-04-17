@@ -172,6 +172,110 @@ public class ViewTripFragment extends Fragment {
 
         dialog.show();
 
+    }
+
+    private void openCamera() {
+        if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
+        } else {
+            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(cameraIntent, CAMERA_REQUEST);
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == MY_CAMERA_PERMISSION_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(requireActivity(), "camera permission granted", Toast.LENGTH_LONG).show();
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+            } else {
+                Toast.makeText(requireActivity(), "camera permission denied", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+//            imageView.setImageBitmap(photo);
+            Uri uri = getImageUri(requireContext(), photo);
+            imgBill.setImageURI(uri);
+            imageUrl = uri;
+
+        }
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    private void getTripDataFromFirebase(String value) {
+        mFirebaseDatabase = mFirebaseInstance.getReference("Trips");
+        Query query = mFirebaseDatabase.orderByChild("tripId").equalTo(value);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // dataSnapshot is the "issue" node with all children with id 0
+
+                    for (DataSnapshot user : dataSnapshot.getChildren()) {
+                        // do something with the individual "issues"
+                        tripData = user.getValue(TripData.class);
+                        txtTotal.setText(tripData.getTotalSpend());
+                        txtDateReturn.setText(tripData.getEndDate());
+                        txtDateDeparture.setText(tripData.getStartDate());
+                        txtDestination.setText(tripData.getDestination());
+
+
+                    }
+                } else {
+                    Toast.makeText(getActivity(), "Trip not found", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+    private void updateExpanse(ExpanseData expanseData) {
+        int totalAmount;
+        if (tripData.getTotalSpend() == null) {
+            totalAmount = 0;
+        } else {
+            totalAmount = Integer.parseInt(tripData.getTotalSpend());
+        }
+        totalAmount = totalAmount + Integer.parseInt(expanseData.getExpanse());
+        updateUserData(totalAmount);
+        tripData.setTotalSpend(String.valueOf(totalAmount));
+        txtTotal.setText(String.valueOf(totalAmount));
+        tripData.expanseData.add(expanseData);
+        mFirebaseDatabase = mFirebaseInstance.getReference("Trips");
+        mFirebaseDatabase.child(tripData.getTripId()).child("totalSpend").setValue(String.valueOf(totalAmount));
+        mFirebaseDatabase.child(tripData.getTripId()).child("expanseData").setValue(tripData.expanseData);
+    }
+
+    private void updateUserData(int totalAmount) {
+        userData.setCurrentTripTotalExpanse(String.valueOf(totalAmount));
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(userData);
+        prefsEditor.putString("userData", json);
+        prefsEditor.apply();
+
+    }
+
 
 
     }
