@@ -275,6 +275,42 @@ public class ViewTripFragment extends Fragment {
         prefsEditor.apply();
 
     }
+    void uploadBillImageToFirebase(Uri file, ExpanseData expanseData) {
+        progressBar.setVisibility(View.VISIBLE);
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+
+        // [START upload_create_reference]
+        // Create a storage reference from our app
+        StorageReference storageRef = storage.getReference();
+//        StorageReference storageRef = storage.getReference();
+
+// Create a reference to "mountains.jpg"
+        final StorageReference ref = storageRef.child("images/mountains.jpg");
+        UploadTask uploadTask = ref.putFile(file);
+
+        Task<Uri> urlTask = uploadTask.continueWithTask(task -> {
+            if (!task.isSuccessful()) {
+                progressBar.setVisibility(View.GONE);
+                throw task.getException();
+            }
+            progressBar.setVisibility(View.GONE);
+            // Continue with the task to get the download URL
+            return ref.getDownloadUrl();
+        }).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Uri downloadUri = task.getResult();
+                Log.d("", "");
+                expanseData.setImage(String.valueOf(downloadUri));
+                updateExpanse(expanseData);
+                Toast.makeText(getActivity(), "Image Uploaded", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+
+            } else {
+                progressBar.setVisibility(View.GONE);
+                // Handle failures
+            }
+        });
+    }
 
 
 
