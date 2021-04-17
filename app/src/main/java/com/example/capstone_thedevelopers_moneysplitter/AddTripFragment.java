@@ -50,5 +50,21 @@ public class AddTripFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    void setAdapter() {
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        MembersAdapter adapter = new MembersAdapter(requireContext(), membersList);
+//        adapter.setClickListener(this);
+        recyclerView.setAdapter(adapter);
+    }
+
+
+
 
 }
