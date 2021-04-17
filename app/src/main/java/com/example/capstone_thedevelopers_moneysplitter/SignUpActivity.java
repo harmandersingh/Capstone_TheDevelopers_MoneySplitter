@@ -97,3 +97,4 @@ public class SignUpActivity extends AppCompatActivity {
         edtPhoneNumber.setText(userData.getPhoneNumber());
 
     }
+}

@@ -1,6 +1,5 @@
 package com.example.capstone_thedevelopers_moneysplitter;
-
-iimport androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
