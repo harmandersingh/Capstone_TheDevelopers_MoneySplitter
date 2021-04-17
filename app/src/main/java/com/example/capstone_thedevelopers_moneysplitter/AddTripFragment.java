@@ -1,4 +1,4 @@
-package com.example.canadaproject;
+package com.example.capstone_thedevelopers_moneysplitter.;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -63,6 +63,7 @@ public class AddTripFragment extends Fragment {
 //        adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -166,7 +167,52 @@ public class AddTripFragment extends Fragment {
 
     }
 
+    private void resetView() {
+        edtBudget.setText("");
+        edtDestination.setText("");
+        edtEndDate.setText("");
+        edtMembers.setText("");
+        edtStartDate.setText("");
+        membersList.clear();
+        setAdapter();
+    }
 
 
+    private void findUserAndAddToList(String value) {
+        mFirebaseDatabase = mFirebaseInstance.getReference("Users");
+        Query query = mFirebaseDatabase.orderByChild("email").equalTo(value);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // dataSnapshot is the "issue" node with all children with id 0
+
+                    for (DataSnapshot user : dataSnapshot.getChildren()) {
+                        // do something with the individual "issues"
+                        UserData usersBean = user.getValue(UserData.class);
+                        if (usersBean.getCurrentTripId().isEmpty()) {
+                            membersList.add(usersBean);
+                            edtMembers.setText("");
+                            setAdapter();
+                        } else {
+                            Toast.makeText(getActivity(), "User Already on trip", Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                } else {
+                    Toast.makeText(getActivity(), "User not found", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
 
 }
+
+
+
