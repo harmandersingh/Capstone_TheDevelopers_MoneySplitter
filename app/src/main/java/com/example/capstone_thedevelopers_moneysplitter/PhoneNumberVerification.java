@@ -108,6 +108,74 @@ public class PhoneNumberVerificationActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
             }
         };
+        btnVerify.setOnClickListener(v -> {
+            progressBar.setVisibility(View.VISIBLE);
+            if (isVerifyOtp) {
+                verifyCode(edtOtp.getText().toString());
+            } else {
+                isVerifyOtp = true;
+                edtOtp.setVisibility(View.VISIBLE);
+                edtPhone.setVisibility(View.GONE);
+                btnVerify.setText("Verify");
+                sendVerificationCode("+91" + edtPhone.getText().toString());
+            }
+        });
+    }
+
+
+    private void sendVerificationCode(String number) {
+
+        PhoneAuthOptions options =
+                PhoneAuthOptions.newBuilder(mAuth)
+                        .setPhoneNumber(number)       // Phone number to verify
+                        .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+                        .setActivity(this)                 // Activity (for callback binding)
+                        .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
+                        .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
+    }
+
+
+    private void signInWithCredential(PhoneAuthCredential credential) {
+        // inside this method we are checking if
+        // the code entered is correct or not.
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        // if the code is correct and the task is successful
+                        // we are sending our user to new activity.
+                        String id = task.getResult().getUser().getUid();
+                        String number = task.getResult().getUser().getPhoneNumber();
+
+                        UserData user = new UserData();
+                        user.setUserId(id);
+                        user.setPhoneNumber(edtPhone.getText().toString());
+                        progressBar.setVisibility(View.GONE);
+                        Intent i = new Intent(PhoneNumberVerificationActivity.this, SignUpActivity.class);
+                        i.putExtra("data", user);
+                        startActivity(i);
+                        finish();
+                    } else {
+                        progressBar.setVisibility(View.GONE);
+                        // if the code is not correct then we are
+                        // displaying an error message to the user.
+                        Toast.makeText(PhoneNumberVerificationActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+
+    // below method is use to verify code from Firebase.
+    private void verifyCode(String code) {
+        progressBar.setVisibility(View.VISIBLE);
+        // below line is used for getting getting
+        // credentials from our verification id and code.
+        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
+
+        // after getting credential we are
+        // calling sign in method.
+        signInWithCredential(credential);
+    }
 
 
 
