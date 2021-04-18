@@ -15,3 +15,7 @@ android:padding="10dp">
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white">
+    <ImageView
+        android:id="@+id/imgBill"
+        android:layout_width="80dp"
+        android:layout_height="80dp" />
