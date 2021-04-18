@@ -26,4 +26,16 @@ android:padding="10dp">
         android:layout_toRightOf="@+id/imgBill"
         android:orientation="vertical"
         android:padding="2dp">
+        <TextView
+            android:id="@+id/txtName"
+            style="@style/style_white_bold_text_medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/orange_light" />
+    </LinearLayout>
+
+
+</RelativeLayout>
+</RelativeLayou
+
 
