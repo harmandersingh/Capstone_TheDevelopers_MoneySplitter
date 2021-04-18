@@ -36,6 +36,16 @@ public class ExpanseDetailActivity extends AppCompatActivity implements OnMapRea
 //        lng = Long.parseLong(expanseData.getLng());
 
     }
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
+
+//        mMap = googleMap;
+//        LatLng latLng = new LatLng(lat, lng);
+//        mMap.addMarker(new
+//                MarkerOptions().position(latLng).title(""));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+    }
 
    }
 
