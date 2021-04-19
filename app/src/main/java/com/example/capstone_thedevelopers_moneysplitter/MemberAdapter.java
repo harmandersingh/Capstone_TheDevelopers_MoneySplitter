@@ -49,5 +49,22 @@ public MembersAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, i
     View view = mInflater.inflate(R.layout.item_members, parent, false);
     return new ViewHolder(view);
 }
+    // total number of rows
+    @Override
+    public int getItemCount() {
+        return mData.size();
+    }
+
+
+    // stores and recycles views as they are scrolled off screen
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView myTextView;
+
+        ViewHolder(View itemView) {
+            super(itemView);
+            myTextView = itemView.findViewById(R.id.txtMemberName);
+//            itemView.setOnClickListener(this);
+        }
+    }
 
 
