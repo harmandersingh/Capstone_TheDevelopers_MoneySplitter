@@ -25,3 +25,10 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
+//    // inflates the row layout from xml when needed
+//    @Override
+//    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+//        View view = mInflater.inflate(R.layout.recyclerview_row, parent, false);
+//        return new ViewHolder(view);
+//    }
+
