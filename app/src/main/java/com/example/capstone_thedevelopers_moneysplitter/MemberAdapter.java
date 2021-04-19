@@ -43,4 +43,11 @@ public void onBindViewHolder(@NonNull MembersAdapter.ViewHolder holder, int posi
 //        String animal = mData.get(position);
 //        holder.myTextView.setText(animal);
 //    }
+@NonNull
+@Override
+public MembersAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    View view = mInflater.inflate(R.layout.item_members, parent, false);
+    return new ViewHolder(view);
+}
+
 
