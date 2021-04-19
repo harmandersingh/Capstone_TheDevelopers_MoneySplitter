@@ -31,4 +31,16 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
 //        View view = mInflater.inflate(R.layout.recyclerview_row, parent, false);
 //        return new ViewHolder(view);
 //    }
+@Override
+public void onBindViewHolder(@NonNull MembersAdapter.ViewHolder holder, int position) {
+
+    holder.myTextView.setText(mData.get(position).getName());
+}
+
+// binds the data to the TextView in each row
+//    @Override
+//    public void onBindViewHolder(ViewHolder holder, int position) {
+//        String animal = mData.get(position);
+//        holder.myTextView.setText(animal);
+//    }
 
