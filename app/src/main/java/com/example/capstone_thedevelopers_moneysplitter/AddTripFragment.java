@@ -1,4 +1,4 @@
-package com.example.capstone_thedevelopers_moneysplitter.;
+package com.example.capstone_thedevelopers_moneysplitter;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
