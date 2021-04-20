@@ -30,23 +30,26 @@
             android:layout_height="wrap_content"
             android:hint="Phone No."
             android:inputType="number"
-            android:text="9729454650" />
+            android:text="Enter Number" />
 
         <EditText
 
 
-            android:inputType="textPassword"
             android:id="@+id/edtPassword"
             style="@style/style_edt_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password" />
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:text="qwerty" />
+
 
         <TextView
             android:id="@+id/btnLogin"
             style="@style/style_white_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Login" />
 
             />
 
