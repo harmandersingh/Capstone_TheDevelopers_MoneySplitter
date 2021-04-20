@@ -149,6 +149,12 @@ public class AddTripFragment extends Fragment {
         }
         mFirebaseDatabase.child(tripId).setValue(tripData);
 
+        userData.setCurrentTripId(tripId);
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(userData);
+        prefsEditor.putString("userData", json);
+        prefsEditor.apply();
 
         mFirebaseDatabase.addValueEventListener(new ValueEventListener() {
             @Override
