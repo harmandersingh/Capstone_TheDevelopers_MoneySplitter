@@ -26,10 +26,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
+            android:fontFamily="@font/baloo"
             android:gravity="center"
+            android:rotation="0"
+            android:rotationX="0"
+            android:rotationY="0"
             android:text="Money Splitter"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="@color/white" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Display4"
+            android:textColor="@color/design_default_color_primary_variant" />
 
         <TextView
             style="@style/style_white_bold_text_medium"
@@ -45,8 +49,12 @@
         style="@style/style_white_text_small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="12dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginRight="9dp"
+        android:layout_marginBottom="16dp"
         android:padding="8dp"
         android:text="©The Developers" />
 
