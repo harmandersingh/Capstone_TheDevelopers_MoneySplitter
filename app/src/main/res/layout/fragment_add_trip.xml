@@ -26,6 +26,7 @@
 
 
             <EditText
+                android:id="@+id/edtDestination"
                 style="@style/style_edt_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -34,23 +35,37 @@
                 android:hint="Destination" />
 
             <EditText
+                android:id="@+id/edtBudget"
                 style="@style/style_edt_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Budget" />
+                android:hint="Budget"
+                android:inputType="number" />
+
 
             <EditText
+                android:inputType="none"
+                android:id="@+id/edtStartDate"
                 style="@style/style_edt_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:hint="Date of departure" />
+                android:clickable="false"
+                android:editable="false"
+                android:hint="Date of departure"
+                android:singleLine="true" />
+
 
             <EditText
+                android:inputType="none"
+                android:id="@+id/edtEndDate"
                 style="@style/style_edt_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Date of return" />
+                android:clickable="false"
+                android:editable="false"
+                android:hint="Date of return"
+                android:singleLine="true" />
 
 
             <TextView
@@ -62,6 +77,7 @@
 
 
             <EditText
+                android:id="@+id/edtMember"
                 style="@style/style_edt_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -93,4 +109,10 @@
         </LinearLayout>
 
     </ScrollView>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 </RelativeLayout>
