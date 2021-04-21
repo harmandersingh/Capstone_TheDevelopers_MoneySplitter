@@ -3,6 +3,8 @@ package com.example.capstone_thedevelopers_moneysplitter;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,6 +35,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -104,7 +107,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         };
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.web_client_id))//you can also use R.string.default_web_client_id
+                .requestIdToken(getString(R.string.web_client_id))//We can also use R.string.default_web_client_id
                 .requestEmail()
                 .build();
         googleApiClient = new GoogleApiClient.Builder(this)
@@ -160,6 +163,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             if (usersBean.getPhonenumber().equals(value) &&
                                     usersBean.getPassword().equals(edtPassword.getText().toString())) {
                                 progressBar.setVisibility(View.GONE);
+                                SharedPreferences.Editor prefsEditor = mPrefs.edit();
+                                Gson gson = new Gson();
                                 String json = gson.toJson(usersBean);
                                 prefsEditor.putString("userData", json);
                                 prefsEditor.apply();
