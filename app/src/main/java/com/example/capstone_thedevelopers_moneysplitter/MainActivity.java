@@ -1,5 +1,5 @@
 package com.example.capstone_thedevelopers_moneysplitter;
-import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -7,22 +7,34 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.paypal.android.sdk.payments.PayPalConfiguration;
+import com.paypal.android.sdk.payments.PayPalPayment;
+import com.paypal.android.sdk.payments.PayPalService;
+import com.paypal.android.sdk.payments.PaymentActivity;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    TextView txtLogout, txtPay;
 
+    TextView txtLogout, txtPay;
     LocationManager locationManager;
     public String latitude = "0", longitude = "0";
     SharedPreferences mPrefs;
 
     private static final int PAYPAL_REQUEST_CODE = 7777;
+
     private static PayPalConfiguration config = new PayPalConfiguration()
             .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
             .clientId(Config.PAYPAL_CLIENT_ID);
@@ -34,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         txtLogout = findViewById(R.id.txtLogout);
         txtPay = findViewById(R.id.txtPay);
         mPrefs = getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
+
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         prefsEditor.putBoolean("isLogin", true);
         prefsEditor.apply();
@@ -41,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         getCurrentLocation();
         txtLogout.setOnClickListener(v -> logout());
         txtPay.setOnClickListener(v -> {
+
             PayPalPayment payPalPayment = new PayPalPayment(new BigDecimal(String.valueOf("10")), "USD",
                     "trip expanse", PayPalPayment.PAYMENT_INTENT_SALE);
             Intent intent = new Intent(this, PaymentActivity.class);
@@ -92,9 +106,10 @@ public class MainActivity extends AppCompatActivity {
                     latitude = String.valueOf(lat);
                     longitude = String.valueOf(longi);
                     //  showLocation.setText("Your Location: " + "\n" + "Latitude: " + latitude + "\n" + "Longitude: " + longitude);
-                } else {
-                    Toast.makeText(this, "Unable to find location.", Toast.LENGTH_SHORT).show();
                 }
+      //          else {
+     //               Toast.makeText(this, "Unable to find location.", Toast.LENGTH_SHORT).show();
+      //          }
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -99,8 +99,13 @@ public class ViewTripFragment extends Fragment {
         ((MainActivity) getActivity()).getCurrentLocation();
 
         btnViewLocation.setOnClickListener(v -> {
+            if (tripData.getExpanseData().isEmpty()) {
+                return;
+            }
             Bundle bundle = new Bundle();
-            bundle.putSerializable("dataList", tripData.expanseData);
+            bundle.putSerializable("dataList", tripData.getExpanseData());
+            bundle.putSerializable("userData", tripData.getMembers());
+            bundle.putString("totalSpend", tripData.getTotalSpend());
             ExpanseListFragment expanseListFragment = new ExpanseListFragment();
             expanseListFragment.setArguments(bundle);
             ((MainActivity) getActivity()).openFragment(expanseListFragment, true);
@@ -126,7 +131,7 @@ public class ViewTripFragment extends Fragment {
 
         final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
+     //   dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_expanse);
 
         EditText edtExpanse = (EditText) dialog.findViewById(R.id.edtExpanse);

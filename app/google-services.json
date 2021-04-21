@@ -1,0 +1,85 @@
+{
+  "project_info": {
+    "project_number": "387012847924",
+    "firebase_url": "https://cheaptravel-cff17.firebaseio.com",
+    "project_id": "cheaptravel-cff17",
+    "storage_bucket": "cheaptravel-cff17.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387012847924:android:8d7035ff94aa6ce5",
+        "android_client_info": {
+          "package_name": "com.crinoidtechnologies.cheapride"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "387012847924-kk11arhqukrjdc1odo6dtqe6gd7j96q5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.crinoidtechnologies.cheapride",
+            "certificate_hash": "700ed34c6b09e4a47be1544751fef4fa19b85c66"
+          }
+        },
+        {
+          "client_id": "387012847924-n5eddcgnk2utk396noheeqcl1dda0ruv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.crinoidtechnologies.cheapride",
+            "certificate_hash": "556201f7ecdbfa0703dbc9ed52d6e31a45051719"
+          }
+        },
+        {
+          "client_id": "387012847924-u3glhnh47362apcakd2tuku8cd7q9kn7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCulgcuD8lTiInE6GcrJsnDiCHaKNU1zkA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "387012847924-u3glhnh47362apcakd2tuku8cd7q9kn7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387012847924:android:52b7a0efa62bf559105d61",
+        "android_client_info": {
+          "package_name": "com.example.canadaproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "387012847924-u3glhnh47362apcakd2tuku8cd7q9kn7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCulgcuD8lTiInE6GcrJsnDiCHaKNU1zkA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "387012847924-u3glhnh47362apcakd2tuku8cd7q9kn7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

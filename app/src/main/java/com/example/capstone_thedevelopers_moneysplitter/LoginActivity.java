@@ -4,8 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.SharedPreferences
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         mPrefs = getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
         boolean isLogin = mPrefs.getBoolean("isLogin", false);
 
-        if (isLogin) {
+        if (isLogin){
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         };
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.web_client_id))//We can also use R.string.default_web_client_id
+                .requestIdToken(getString(R.string.web_client_id))//you can also use R.string.default_web_client_id
                 .requestEmail()
                 .build();
         googleApiClient = new GoogleApiClient.Builder(this)
@@ -159,114 +159,121 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     for (DataSnapshot user : dataSnapshot.getChildren()) {
                         // do something with the individual "issues"
                         UserData usersBean = user.getValue(UserData.class);
-                        if (isFromPassword) {
-                            if (usersBean.getPhonenumber().equals(value) &&
-                                    usersBean.getPassword().equals(edtPassword.getText().toString())) {
-                                progressBar.setVisibility(View.GONE);
-                                SharedPreferences.Editor prefsEditor = mPrefs.edit();
-                                Gson gson = new Gson();
-                                String json = gson.toJson(usersBean);
-                                prefsEditor.putString("userData", json);
-                                prefsEditor.apply();
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(intent);
-                                finish();
-                                break;
-                            } else {
-                                progressBar.setVisibility(View.GONE);
-                                Toast.makeText(LoginActivity.this, "Password is wrong", Toast.LENGTH_LONG).show();
-                            }
-                        }
+//                        if (isFromPassword) {
+                        if (usersBean.getPhoneNumber().equals(value) &&
+                                usersBean.getPassword().equals(edtPassword.getText().toString())) {
+                            progressBar.setVisibility(View.GONE);
+                            SharedPreferences.Editor prefsEditor = mPrefs.edit();
+                            Gson gson = new Gson();
+                            String json = gson.toJson(usersBean);
+                            prefsEditor.putString("userData", json);
+                            prefsEditor.apply();
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                            break;
                         } else {
-                        progressBar.setVisibility(View.GONE);
-                        Toast.makeText(LoginActivity.this, "User not found", Toast.LENGTH_LONG).show();
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
-        }
-        @Override
-        public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-        }
-
-        @Override
-        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
-            if (requestCode == RC_SIGN_IN) {
-                GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-                handleSignInResult(result);
-            }
-        }
-        private void handleSignInResult(GoogleSignInResult result) {
-            if (result.isSuccess()) {
-                GoogleSignInAccount account = result.getSignInAccount();
-                idToken = account.getIdToken();
-                name = account.getDisplayName();
-                email = account.getEmail();
-                // you can store user data to SharedPreference
-                AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-                firebaseAuthWithGoogle(credential);
-            } else {
-                // Google Sign In failed, update UI appropriately
-                Log.e(TAG, "Login Unsuccessful. " + result);
-                Toast.makeText(this, "Login Unsuccessful", Toast.LENGTH_SHORT).show();
-            }
-        }
-        private void firebaseAuthWithGoogle(AuthCredential credential){
-
-            firebaseAuth.signInWithCredential(credential)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-                            if (task.isSuccessful()) {
-                                Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-                                UserData userData = new UserData();
-                                userData.setUserId(task.getResult().getUser().getUid());
-                                userData.setName(task.getResult().getUser().getDisplayName());
-                                userData.setEmail(task.getResult().getUser().getEmail());
-                                userData.setPhoneNumber(task.getResult().getUser().getPhoneNumber());
-                                progressBar.setVisibility(View.GONE);
-                                gotoProfile(userData);
-                            } else {
-                                Log.w(TAG, "signInWithCredential" + task.getException().getMessage());
-                                task.getException().printStackTrace();
-                                Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-                                progressBar.setVisibility(View.GONE);
-                            }
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(LoginActivity.this, "please enter valid number and password", Toast.LENGTH_LONG).show();
                         }
-                    });
-        }
-        private void gotoProfile(UserData userData) {
 
-            Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            intent.putExtra("data", userData);
-            startActivity(intent);
-            finish();
-        }
-
-        @Override
-        protected void onStart() {
-            super.onStart();
-            if (authStateListener != null) {
-                FirebaseAuth.getInstance().signOut();
+                    }
+                } else {
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(LoginActivity.this, "User not found", Toast.LENGTH_LONG).show();
+                }
             }
-            firebaseAuth.addAuthStateListener(authStateListener);
-        }
 
-        @Override
-        protected void onStop() {
-            super.onStop();
-            if (authStateListener != null) {
-                firebaseAuth.removeAuthStateListener(authStateListener);
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
+        });
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
         }
     }
+
+    private void handleSignInResult(GoogleSignInResult result) {
+        if (result.isSuccess()) {
+            GoogleSignInAccount account = result.getSignInAccount();
+            idToken = account.getIdToken();
+            name = account.getDisplayName();
+            email = account.getEmail();
+            // you can store user data to SharedPreference
+            AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+            firebaseAuthWithGoogle(credential);
+        } else {
+            // Google Sign In failed, update UI appropriately
+            Log.e(TAG, "Login Unsuccessful. " + result);
+            Toast.makeText(this, "Login Unsuccessful", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void firebaseAuthWithGoogle(AuthCredential credential) {
+
+        firebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+                        if (task.isSuccessful()) {
+                            Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                            UserData userData = new UserData();
+                            userData.setUserId(task.getResult().getUser().getUid());
+                            userData.setName(task.getResult().getUser().getDisplayName());
+                            userData.setEmail(task.getResult().getUser().getEmail());
+                            userData.setPhoneNumber(task.getResult().getUser().getPhoneNumber());
+                            progressBar.setVisibility(View.GONE);
+                            gotoProfile(userData);
+                        } else {
+                            Log.w(TAG, "signInWithCredential" + task.getException().getMessage());
+                            task.getException().printStackTrace();
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    }
+                });
+    }
+
+
+    private void gotoProfile(UserData userData) {
+
+        Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("data", userData);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (authStateListener != null) {
+            FirebaseAuth.getInstance().signOut();
+        }
+        firebaseAuth.addAuthStateListener(authStateListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (authStateListener != null) {
+            firebaseAuth.removeAuthStateListener(authStateListener);
+        }
+    }
+
+}

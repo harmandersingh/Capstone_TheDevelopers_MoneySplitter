@@ -1,9 +1,6 @@
 package com.example.capstone_thedevelopers_moneysplitter;
 
-import android.content.Context;
-import android.view.LayoutInflater;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,30 +22,34 @@ public class MembersAdapter extends RecyclerView.Adapter<MembersAdapter.ViewHold
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
+
 //    // inflates the row layout from xml when needed
 //    @Override
 //    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 //        View view = mInflater.inflate(R.layout.recyclerview_row, parent, false);
 //        return new ViewHolder(view);
 //    }
-@Override
-public void onBindViewHolder(@NonNull MembersAdapter.ViewHolder holder, int position) {
 
-    holder.myTextView.setText(mData.get(position).getName());
-}
+    @Override
+    public void onBindViewHolder(@NonNull MembersAdapter.ViewHolder holder, int position) {
 
-// binds the data to the TextView in each row
+        holder.myTextView.setText(mData.get(position).getName());
+    }
+
+    // binds the data to the TextView in each row
 //    @Override
 //    public void onBindViewHolder(ViewHolder holder, int position) {
 //        String animal = mData.get(position);
 //        holder.myTextView.setText(animal);
 //    }
-@NonNull
-@Override
-public MembersAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-    View view = mInflater.inflate(R.layout.item_members, parent, false);
-    return new ViewHolder(view);
-}
+
+    @NonNull
+    @Override
+    public MembersAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = mInflater.inflate(R.layout.item_members, parent, false);
+        return new ViewHolder(view);
+    }
+
     // total number of rows
     @Override
     public int getItemCount() {
@@ -57,7 +58,7 @@ public MembersAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, i
 
 
     // stores and recycles views as they are scrolled off screen
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder{
         TextView myTextView;
 
         ViewHolder(View itemView) {
@@ -65,14 +66,13 @@ public MembersAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, i
             myTextView = itemView.findViewById(R.id.txtMemberName);
 //            itemView.setOnClickListener(this);
         }
+
     }
-    //    // convenience method for getting data at click position
+
+//    // convenience method for getting data at click position
 //    String getItem(int id) {
 //        return mData.get(id);
 //    }
 
 
 }
-
-
-

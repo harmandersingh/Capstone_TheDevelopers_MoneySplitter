@@ -2,18 +2,24 @@ package com.example.capstone_thedevelopers_moneysplitter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -36,29 +42,12 @@ public class SignUpActivity extends AppCompatActivity {
         edtPhoneNumber = findViewById(R.id.edtPhoneNumber);
         edtPassword = findViewById(R.id.edtPassword);
         userData = (UserData) getIntent().getSerializableExtra("data");
-
+        mPrefs = getSharedPreferences("MyPREFERENCES", Context.MODE_PRIVATE);
         setData();
         mFirebaseInstance = FirebaseDatabase.getInstance();
 
         // get reference to 'users' node
         mFirebaseDatabase = mFirebaseInstance.getReference("Users");
-
-        mFirebaseDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                progressBar.setVisibility(View.GONE);
-                Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-
-            }
-        });
 
 
         txtRegister.setOnClickListener(v -> {
@@ -85,9 +74,75 @@ public class SignUpActivity extends AppCompatActivity {
             userData.setEmail(edtEmail.getText().toString());
             userData.setPhoneNumber(edtPhoneNumber.getText().toString());
             userData.setPassword(edtPassword.getText().toString());
-            mFirebaseDatabase.child(userData.getUserId()).setValue(userData);
-
+            userData.setCurrentTripId("");
+            userData.setCurrentTripTotalExpanse("0");
+            checkUserExit("phoneNumber", userData.getPhoneNumber(), true);
+//            if (checkUserExit("phoneNumber", userData.getPhoneNumber())) {
+//                return;
+//            } else if (checkUserExit("email", userData.getEmail())) {
+//                return;
+//            }
         });
+
+    }
+
+    private void checkUserExit(String key, String value, boolean isNumber) {
+        Query query = mFirebaseDatabase.orderByChild(key).equalTo(value);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // dataSnapshot is the "issue" node with all children with id 0
+
+                    for (DataSnapshot user : dataSnapshot.getChildren()) {
+                        // do something with the individual "issues"
+                        UserData usersBean = user.getValue(UserData.class);
+                        Toast.makeText(SignUpActivity.this,
+                                "User Already Exits", Toast.LENGTH_LONG).show();
+                        progressBar.setVisibility(View.GONE);
+                        break;
+                    }
+                } else {
+                    if (isNumber) {
+                        checkUserExit("email", userData.getEmail(), false);
+                        return;
+                    }
+
+                    mFirebaseDatabase.child(userData.getUserId()).setValue(userData);
+                    SharedPreferences.Editor prefsEditor = mPrefs.edit();
+                    Gson gson = new Gson();
+                    String json = gson.toJson(userData);
+                    prefsEditor.putString("userData", json);
+                    prefsEditor.apply();
+                    mFirebaseDatabase.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            // This method is called once with the initial value and again
+                            progressBar.setVisibility(View.GONE);
+                            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError error) {
+                            // Failed to read value
+
+                        }
+                    });
+
+//                });
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     private void setData() {
@@ -97,4 +152,4 @@ public class SignUpActivity extends AppCompatActivity {
         edtPhoneNumber.setText(userData.getPhoneNumber());
 
     }
-}
+}}
