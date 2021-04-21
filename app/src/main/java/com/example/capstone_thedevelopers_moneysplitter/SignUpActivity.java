@@ -30,7 +30,7 @@ public class SignUpActivity extends AppCompatActivity {
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
     UserData userData = new UserData();
-
+    SharedPreferences mPrefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -152,4 +152,4 @@ public class SignUpActivity extends AppCompatActivity {
         edtPhoneNumber.setText(userData.getPhoneNumber());
 
     }
-}}
+}

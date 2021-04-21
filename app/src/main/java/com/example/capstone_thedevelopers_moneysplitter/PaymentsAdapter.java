@@ -1,5 +1,6 @@
 package com.example.capstone_thedevelopers_moneysplitter;
 
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +33,7 @@ public class PaymentsAdapter extends RecyclerView.Adapter<PaymentsAdapter.ViewHo
     @NonNull
     @Override
     public PaymentsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_members, parent, false);
+        View view = mInflater.inflate(R.layout.item_member, parent, false);
         return new PaymentsAdapter.ViewHolder(view);
     }
 
