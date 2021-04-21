@@ -18,7 +18,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class ExpanseDetailFragment extends Fragment implements OnMapReadyCallback {
+public class ExpenseDetailFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     ExpanseData expanseData = new ExpanseData();
 
@@ -55,8 +55,8 @@ public class ExpanseDetailFragment extends Fragment implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        long lat = Long.parseLong(expanseData.lat);
-        long lng = Long.parseLong(expanseData.lng);
+        double lat = Double.parseDouble(expanseData.lat);
+        double lng = Double.parseDouble(expanseData.lng);
 
         mMap = googleMap;
         // Add a marker in Sydney and move the camera

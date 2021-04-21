@@ -1,5 +1,8 @@
 package com.example.capstone_thedevelopers_moneysplitter;
+import android.content.Context;
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,7 +12,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
+import com.paypal.android.sdk.payments.PayPalConfiguration;
+import com.paypal.android.sdk.payments.PayPalPayment;
+import com.paypal.android.sdk.payments.PayPalService;
+import com.paypal.android.sdk.payments.PaymentActivity;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 
@@ -71,6 +87,7 @@ public class ExpanseListFragment extends Fragment {
     }
 
     private void showDialog() {
+
         final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_end_trip);
@@ -86,6 +103,7 @@ public class ExpanseListFragment extends Fragment {
         });
         dialog.show();
     }
+
     private void clearTripId() {
         for (int i = 0; i < userDataArrayList.size(); i++) {
             mFirebaseInstance.getReference("Users").child(userDataArrayList.get(i).getUserId()).child("currentTripId").setValue("");

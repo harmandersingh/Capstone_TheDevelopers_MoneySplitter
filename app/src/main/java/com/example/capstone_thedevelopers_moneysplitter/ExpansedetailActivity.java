@@ -16,7 +16,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class ExpanseDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class ExpansedetailActivity extends AppCompatActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
     ExpanseData expanseData = new ExpanseData();
     private double lat,lng;
