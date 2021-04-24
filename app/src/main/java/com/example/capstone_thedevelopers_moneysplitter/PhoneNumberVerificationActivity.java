@@ -119,7 +119,7 @@ public class PhoneNumberVerificationActivity extends AppCompatActivity {
                 edtOtp.setVisibility(View.VISIBLE);
                 edtPhone.setVisibility(View.GONE);
                 btnVerify.setText("Verify");
-                sendVerificationCode("+91" + edtPhone.getText().toString());
+                sendVerificationCode("+1" + edtPhone.getText().toString());
             }
         });
     }
