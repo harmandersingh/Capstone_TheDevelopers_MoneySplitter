@@ -42,6 +42,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:441524892291:android:1b2cf34aae40ae776521b6",
+        "android_client_info": {
+          "package_name": "com.example.moneysplitter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "441524892291-tsg9cjh2tc8a84467a6kjtuudtrbgmbq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2ckbCwyIHx1_TljpNLlEmBN2gQO8POW4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "441524892291-tsg9cjh2tc8a84467a6kjtuudtrbgmbq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
