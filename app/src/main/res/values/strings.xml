@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Capstone_TheDevelopers_MoneySplitter</string>
-    <string name="web_client_id">441524892291-rfkegmvv60dtdca71uqtfnuv1ggl7elh.apps.googleusercontent.com</string>
+    <string name="web_client_id">441524892291-tsg9cjh2tc8a84467a6kjtuudtrbgmbq.apps.googleusercontent.com</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

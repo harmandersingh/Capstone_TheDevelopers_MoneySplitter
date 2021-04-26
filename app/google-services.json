@@ -52,6 +52,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "441524892291-7fd2hanult9vt76gjve2k1jhmrd88936.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.moneysplitter",
+            "certificate_hash": "700ed34c6b09e4a47be1544751fef4fa19b85c66"
+          }
+        },
+        {
           "client_id": "441524892291-tsg9cjh2tc8a84467a6kjtuudtrbgmbq.apps.googleusercontent.com",
           "client_type": 3
         }
